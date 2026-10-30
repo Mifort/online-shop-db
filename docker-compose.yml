@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: pg18-shop
+    environment:
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop
+      POSTGRES_DB: shop
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg18_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shop -d shop"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    shm_size: 128mb
+
+volumes:
+  pg18_data:
